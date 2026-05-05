@@ -1,6 +1,6 @@
 # FORRT — Framework for Open and Reproducible Research Training
 
-[forrt.org](https://forrt.org) · [@FORRTproject](https://twitter.com/FORRTproject) · forrtproject@gmail.com
+[forrt.org](https://forrt.org) · forrtproject@gmail.com
 
 FORRT is a global, volunteer-run initiative working to advance open and
 reproducible research practices in higher education. This page is a
@@ -56,6 +56,7 @@ surfaces it in researchers' workflows.
 - [`flora-preprint-notifier`](https://github.com/forrtproject/flora-preprint-notifier) — notify authors of potentially-missing replications
 - [`flora-preprint-notifier-analysis`](https://github.com/forrtproject/flora-preprint-notifier-analysis) — trial analysis
 - [`flora-pubpeer`](https://github.com/forrtproject/flora-pubpeer) — PubPeer integration
+- [`plugin-notification-dummy`](https://github.com/forrtproject/plugin-notification-dummy) — test page for the plugin install-banner conditional-hide logic
 
 ### Replications — other
 
@@ -72,6 +73,7 @@ surfaces it in researchers' workflows.
 - [`webpage-staging`](https://github.com/forrtproject/webpage-staging) — staging renders for site PRs
 - [`lighthouse`](https://github.com/forrtproject/lighthouse), [`lighthouse-v1`](https://github.com/forrtproject/lighthouse-v1) — Lighthouse newsletter / portal
 - [`forrt-templates`](https://github.com/forrtproject/forrt-templates) — branded templates for FORRT outputs
+- [`cv`](https://github.com/forrtproject/cv) — source for the FORRT CV; published PDF is auto-pushed to the site
 
 ### Educational resources
 
