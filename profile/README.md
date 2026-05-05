@@ -5,7 +5,7 @@
 FORRT is a global, volunteer-run initiative working to advance open and
 reproducible research practices in higher education. This page is a
 **work-in-progress map of the GitHub organisation** — what lives here,
-who maintains what, and how things are (loosely) named. PRs welcome.
+who maintains what, and how things are named. PRs welcome.
 
 ---
 
@@ -35,13 +35,13 @@ see the full [repository list](https://github.com/orgs/forrtproject/repositories
 
 A curated database of replication attempts plus the tooling around it.
 
-- [`FReD`](https://github.com/forrtproject/FReD) — the R package
-- [`FReD-data`](https://github.com/forrtproject/FReD-data) — the underlying dataset and ingest pipeline
-- [`FReD-apps`](https://github.com/forrtproject/FReD-apps) — JS apps using FReD / FLoRA
-- [`fred_explorer`](https://github.com/forrtproject/fred_explorer) — Shiny explorer
-- [`fred_litsearch`](https://github.com/forrtproject/fred_litsearch) — reproducible literature search pipeline
-- [`fred_repl_extractor`](https://github.com/forrtproject/fred_repl_extractor) — extract replication metadata from articles
-- [`fred_preprint_processor`](https://github.com/forrtproject/fred_preprint_processor) — extract references and replications from preprints
+- [`fred`](https://github.com/forrtproject/fred) — the R package
+- [`fred-data`](https://github.com/forrtproject/fred-data) — the underlying dataset and ingest pipeline
+- [`fred-apps`](https://github.com/forrtproject/fred-apps) — JS apps using FReD / FLoRA
+- [`fred-explorer`](https://github.com/forrtproject/fred-explorer) — Shiny explorer
+- [`fred-litsearch`](https://github.com/forrtproject/fred-litsearch) — reproducible literature search pipeline
+- [`fred-repl-extractor`](https://github.com/forrtproject/fred-repl-extractor) — extract replication metadata from articles
+- [`fred-preprint-processor`](https://github.com/forrtproject/fred-preprint-processor) — extract references and replications from preprints
 
 ### Replications — FLoRA (Library of Replication Attempts)
 
@@ -51,10 +51,10 @@ surfaces it in researchers' workflows.
 - [`flora-extractor`](https://github.com/forrtproject/flora-extractor) — extraction pipeline
 - [`flora-explorer`](https://github.com/forrtproject/flora-explorer) — dashboard
 - [`flora-replication-atlas`](https://github.com/forrtproject/flora-replication-atlas) — landing pages per original DOI
-- [`flora_zotero`](https://github.com/forrtproject/flora_zotero) — Zotero plugin (privacy-first local matching)
-- [`flora_chromium`](https://github.com/forrtproject/flora_chromium) — browser extension
-- [`flora_preprint_notifier`](https://github.com/forrtproject/flora_preprint_notifier) — notify authors of potentially-missing replications
-- [`flora_preprint_notifier_analysis`](https://github.com/forrtproject/flora_preprint_notifier_analysis) — trial analysis
+- [`flora-zotero`](https://github.com/forrtproject/flora-zotero) — Zotero plugin (privacy-first local matching)
+- [`flora-chromium`](https://github.com/forrtproject/flora-chromium) — browser extension
+- [`flora-preprint-notifier`](https://github.com/forrtproject/flora-preprint-notifier) — notify authors of potentially-missing replications
+- [`flora-preprint-notifier-analysis`](https://github.com/forrtproject/flora-preprint-notifier-analysis) — trial analysis
 - [`flora-pubpeer`](https://github.com/forrtproject/flora-pubpeer) — PubPeer integration
 
 ### Replications — other
@@ -63,8 +63,8 @@ surfaces it in researchers' workflows.
 - [`rjf`](https://github.com/forrtproject/rjf) — Replication Journal Federation
 - [`journalranking`](https://github.com/forrtproject/journalranking) — rank journals by replication rate
 - [`marco`](https://github.com/forrtproject/marco) — Making Replications Count
-- [`replication_handbook`](https://github.com/forrtproject/replication_handbook) — Quarto book
-- [`LoveReplicationsWeek`](https://github.com/forrtproject/LoveReplicationsWeek) — annual outreach event
+- [`replication-handbook`](https://github.com/forrtproject/replication-handbook) — Quarto book
+- [`love-replications-week`](https://github.com/forrtproject/love-replications-week) — annual outreach event
 
 ### Website & public-facing
 
@@ -78,45 +78,53 @@ surfaces it in researchers' workflows.
 - [`open-research-course`](https://github.com/forrtproject/open-research-course)
 - [`open-social-psychology`](https://github.com/forrtproject/open-social-psychology)
 - [`handbook`](https://github.com/forrtproject/handbook)
-- [`Transform-to-Open-Science-Book`](https://github.com/forrtproject/Transform-to-Open-Science-Book)
+- [`transform-to-open-science-book`](https://github.com/forrtproject/transform-to-open-science-book)
 - [`best-practices-psychology`](https://github.com/forrtproject/best-practices-psychology)
 - [`glossary-research`](https://github.com/forrtproject/glossary-research)
 - [`re-searchterms`](https://github.com/forrtproject/re-searchterms) — explore variation in open-science terminology
 
 ### Community mapping
 
-- [`Map_Community`](https://github.com/forrtproject/Map_Community) — FORRT community map
+- [`map-community`](https://github.com/forrtproject/map-community) — FORRT community map
 - [`mapping-open-science-organizations`](https://github.com/forrtproject/mapping-open-science-organizations)
 
 ### Games & outreach
 
-- [`Open-Research-Games-Portal`](https://github.com/forrtproject/Open-Research-Games-Portal)
-- [`TenureRun`](https://github.com/forrtproject/TenureRun)
+- [`open-research-games-portal`](https://github.com/forrtproject/open-research-games-portal)
+- [`tenure-run`](https://github.com/forrtproject/tenure-run)
 
 ### Archived / historical
 
-- [`TOPS-archive`](https://github.com/forrtproject/TOPS-archive) — Transform to Open Science project, snapshot March 2025
-- [`fredAnnotator`](https://github.com/forrtproject/fredAnnotator) — superseded annotation tool
+- [`tops-archive`](https://github.com/forrtproject/tops-archive) — Transform to Open Science project, snapshot March 2025
+- [`fredAnnotator`](https://github.com/forrtproject/fredAnnotator) — superseded annotation tool (archived)
 
 ---
 
 ## Naming conventions
 
-There is no single enforced convention yet — the table below describes what
-*is*, not what *should be*. Suggestions for consolidating are welcome.
+All repos use **kebab-case** (lowercase, hyphen-separated). Project-family
+prefixes group related work:
 
-| Prefix / pattern | Used for |
+| Prefix | Used for |
 | --- | --- |
-| `FReD*` / `fred_*` | FReD ecosystem (mixed case; `FReD` core, `fred_*` snake_case for tooling) |
-| `flora-*` / `flora_*` | FLoRA ecosystem (kebab- and snake-case both appear) |
-| `forrt-*` | Org-level assets (templates etc.) |
+| `fred-*` | FReD (FORRT Replication Database) ecosystem |
+| `flora-*` | FLoRA (Library of Replication Attempts) ecosystem |
+| `forrt-*` | Org-level shared assets (templates etc.) |
 | `*-archive` | Snapshotted, no-longer-active projects |
-| kebab-case | Default for new general-purpose repos |
+
+Two exceptions keep non-kebab names because GitHub requires them:
+[`.github`](https://github.com/forrtproject/.github) (this repo — must be
+exactly `.github` to act as the org profile) and
+[`forrtproject.github.io`](https://github.com/forrtproject/forrtproject.github.io)
+(must match the org name to serve at that path).
+
+Brand names in prose and READMEs use mixed case (`FReD`, `FLoRA`); the
+*repository* names are always lowercase.
 
 When starting a new repo, prefer:
 
-1. **Project-family prefix** if it belongs to one (`fred_`, `flora_`, …) — match the existing case style of that family.
-2. **kebab-case** otherwise.
+1. The relevant project-family prefix if one applies (`fred-`, `flora-`, …).
+2. kebab-case otherwise.
 3. A short [description and topic tags](https://github.blog/2017-01-31-introducing-topics/) so it surfaces in the repo list.
 
 ---
