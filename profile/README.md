@@ -133,7 +133,7 @@ When starting a new repo, prefer:
 
 ## Contributing
 
-Participation in all FORRT projects follows the [FORRT Code of Conduct](https://forrt.org/coc/). See the [GitHub community policy](../CODE_OF_CONDUCT.md) for reporting routes.
+Participation in all FORRT projects follows the [FORRT Code of Conduct](https://forrt.org/coc/). See the [GitHub community policy](https://github.com/forrtproject/.github/blob/main/CODE_OF_CONDUCT.md) for reporting routes.
 
 - New to FORRT? Start at [forrt.org/getinvolved](https://forrt.org/getinvolved/).
 - Found something out of date on this page? Open a PR against
