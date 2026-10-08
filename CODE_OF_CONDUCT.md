@@ -10,7 +10,7 @@ recusal arrangements.
 
 ## Reporting a concern
 
-Follow the [reporting instructions in the FORRT Code of Conduct](https://forrt.org/coc/#how-do-i-report-a-code-of-conduct-violation).
+Follow the [reporting instructions in the FORRT Code of Conduct](https://forrt.org/coc/).
 You can contact a member of the FORRT Ethics Committee or use the
 [anonymous reporting form](https://forms.gle/nQ51x1c8a8nnfQ7a9).
 
