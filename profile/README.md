@@ -43,7 +43,7 @@ A curated database of replication attempts plus the tooling around it.
 - [`fred-repl-extractor`](https://github.com/forrtproject/fred-repl-extractor) — extract replication metadata from articles
 - [`fred-preprint-processor`](https://github.com/forrtproject/fred-preprint-processor) — extract references and replications from preprints
 
-### Replications — FLoRA (Library of Replication Attempts)
+### Replications — FLoRA (FORRT Library of Reproduction and Replication Attempts)
 
 A complementary, broader library of replication attempts and tooling that
 surfaces it in researchers' workflows.
@@ -110,7 +110,7 @@ prefixes group related work:
 | Prefix | Used for |
 | --- | --- |
 | `fred-*` | FReD (FORRT Replication Database) ecosystem |
-| `flora-*` | FLoRA (Library of Replication Attempts) ecosystem |
+| `flora-*` | FLoRA (FORRT Library of Reproduction and Replication Attempts) ecosystem |
 | `forrt-*` | Org-level shared assets (templates etc.) |
 | `*-archive` | Snapshotted, no-longer-active projects |
 
