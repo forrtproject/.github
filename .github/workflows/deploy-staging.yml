@@ -1,0 +1,171 @@
+name: Deploy to staging
+
+# Shared workflow: builds a FORRT repository's site and publishes it to
+# https://staging.forrt.org/<slug>/, the same path the site has on forrt.org.
+#
+# USING IT IN A REPOSITORY
+#   Add .github/workflows/deploy-staging.yml to the repository:
+#
+#     name: Deploy to staging
+#     on:
+#       push:
+#         branches: ['staging', 'staging/**']
+#         tags: ['staging**']
+#       workflow_dispatch:
+#         inputs:
+#           ref:
+#             description: 'Branch, tag or commit to deploy (empty = the branch selected above)'
+#             required: false
+#             type: string
+#             default: ''
+#     permissions:
+#       contents: read
+#     jobs:
+#       deploy:
+#         uses: forrtproject/.github/.github/workflows/deploy-staging.yml@main
+#         with:
+#           ref: ${{ inputs.ref }}
+#           site-dir: dist             # where the build puts the site; '.' for a plain static site
+#           node-version: '22'         # omit when there is no Node build
+#           build: |                   # omit when there is no build
+#             npm ci
+#             npm run build
+#         secrets:
+#           STAGING_GITHUB_TOKEN: ${{ secrets.STAGING_GITHUB_TOKEN }}
+#
+#   The site must work from /<repo>/, as it already does on forrt.org. STAGING_GITHUB_TOKEN
+#   is an org secret with write access to forrtproject/webpage-staging.
+#
+# DEPLOYING
+#   - Push to `staging` or `staging/<name>`, or push a tag starting with `staging`.
+#   - Or Actions -> "Deploy to staging" -> Run workflow, entering any branch, tag or commit.
+#     This always uses the default branch's copy of the calling workflow, so it also
+#     works for branches created before the workflow was added.
+#   Staging shows one build per repository; the latest deploy wins.
+#
+# HOW IT WORKS
+#   The FORRT website publishes staging.forrt.org from the `staging` branch of
+#   forrtproject/webpage-staging. This workflow replaces only the <slug>/ folder there and
+#   marks it with `.staging-subsite`, which tells the website's own staging deploy to keep
+#   the folder when it rebuilds the branch.
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Branch, tag or commit to deploy. Empty = the ref that triggered the caller.'
+        type: string
+        default: ''
+      slug:
+        description: 'Folder on staging.forrt.org. Empty = the repository name.'
+        type: string
+        default: ''
+      site-dir:
+        description: "Folder holding the built site, relative to the repository root. '.' for a plain static site."
+        type: string
+        required: true
+      node-version:
+        description: 'Node version to install (with npm caching) before the build. Empty = no Node.'
+        type: string
+        default: ''
+      working-directory:
+        description: 'Folder the build commands run in, and where package-lock.json lives.'
+        type: string
+        default: '.'
+      build:
+        description: 'Shell commands that build the site into site-dir. Empty = no build.'
+        type: string
+        default: ''
+    secrets:
+      STAGING_GITHUB_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  SLUG: ${{ inputs.slug || github.event.repository.name }}
+  SITE_DIR: ${{ inputs.site-dir }}
+  STAGING_REPO: forrtproject/webpage-staging
+  STAGING_BRANCH: staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    concurrency:
+      group: deploy-staging-${{ github.repository }}
+      cancel-in-progress: true
+    environment:
+      name: staging
+      url: https://staging.forrt.org/${{ inputs.slug || github.event.repository.name }}/
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+          persist-credentials: false
+
+      - if: inputs.node-version != ''
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+
+      - name: Build
+        if: inputs.build != ''
+        working-directory: ${{ inputs.working-directory }}
+        env:
+          BUILD: ${{ inputs.build }}
+        run: bash -eo pipefail -c "$BUILD"
+
+      - name: Check out staging site
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.STAGING_REPO }}
+          ref: ${{ env.STAGING_BRANCH }}
+          token: ${{ secrets.STAGING_GITHUB_TOKEN }}
+          path: .staging-site
+
+      - name: Publish to staging
+        env:
+          REF: ${{ inputs.ref || github.ref_name }}
+        run: |
+          SHA=$(git rev-parse --short HEAD)
+          if [ ! -d "$SITE_DIR" ]; then
+            echo "::error::site-dir '$SITE_DIR' does not exist. Check the build commands."
+            exit 1
+          fi
+          # Refuse to overwrite a folder this workflow did not create, such as a page of
+          # the FORRT website itself (e.g. /cv/ or /impact/). Pass another slug instead.
+          if [ -d ".staging-site/$SLUG" ] && [ ! -f ".staging-site/$SLUG/.staging-subsite" ]; then
+            echo "::error::staging.forrt.org/$SLUG/ already holds content that was not deployed by this workflow. Pass another slug."
+            exit 1
+          fi
+          mkdir -p ".staging-site/$SLUG"
+          rsync -a --delete --exclude .git --exclude .github --exclude .staging-site \
+            "$SITE_DIR/" ".staging-site/$SLUG/"
+          touch ".staging-site/$SLUG/.staging-subsite"
+
+          cd .staging-site
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A "$SLUG"
+          if git diff --cached --quiet; then
+            echo "Staging already matches $REF ($SHA)."
+          else
+            git commit -m "Deploy $SLUG $REF ($SHA)"
+            # Other repositories deploy to the same branch. Each only touches its own
+            # folder, so a rejected push is fixed by rebasing onto theirs and retrying.
+            pushed=false
+            for attempt in 1 2 3 4 5; do
+              if git push origin "HEAD:$STAGING_BRANCH"; then pushed=true; break; fi
+              echo "Push rejected (attempt $attempt), rebasing onto latest staging."
+              sleep $((attempt * 3))
+              git pull --rebase origin "$STAGING_BRANCH"
+            done
+            if [ "$pushed" != true ]; then
+              echo "::error::Could not push to $STAGING_BRANCH after 5 attempts."
+              exit 1
+            fi
+          fi
+          echo "Deployed \`$REF\` (\`$SHA\`) to https://staging.forrt.org/$SLUG/" >> "$GITHUB_STEP_SUMMARY"
